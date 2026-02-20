@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+<!-- Menu Toggle Button -->
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Menu</h2>
+
+        <!-- Flask Routing Links -->
+        <a href="/">Home</a>
+        <a href="/stress">Stress Relief Tips</a>
+        <a href="/study">Study Techniques</a>
+        <a href="/timer">Study Timer</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+
+        <header>
+            <h1>Contact / Feedback</h1>
+            <p>Share your suggestions or feedback</p>
+        </header>
+
+        <!-- Contact Form -->
+        <section>
+            <h2>Send Feedback</h2>
+
+            <!-- Updated Form -->
+            <form action="/submit" method="POST">
+
+                <label>Name:</label><br>
+                <input type="text" name="name" placeholder="Enter your name" required><br><br>
+
+                <label>Email:</label><br>
+                <input type="email" name="email" placeholder="Enter your email" required><br><br>
+
+                <label>Message:</label><br>
+                <textarea name="message" rows="5" placeholder="Write your feedback here" required></textarea><br><br>
+
+                <button type="submit">Submit</button>
+
+            </form>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Exam Stress Management Website</p>
+        </footer>
+
+    </div>
+
+    <!-- JS Link -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

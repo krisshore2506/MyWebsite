@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Timer</title>
+
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+<!-- Menu Toggle Button -->
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Menu</h2>
+
+        <a href="/">Home</a>
+        <a href="/study">Study Techniques</a>
+        <a href="/stress">Stress Tips</a>
+        <a href="/timer">Study Timer</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+
+        <header>
+            <h1>Study Timer</h1>
+            <p>Use Pomodoro Technique to improve focus</p>
+        </header>
+
+        <!-- Timer Section -->
+        <section class="timer-section">
+
+            <!-- Study / Break Text -->
+            <h2 id="session-type">Study Time</h2>
+
+            <div class="timer-box">
+
+                <!-- Timer Display -->
+                <p id="time-display">25:00</p>
+
+                <!-- Timer Buttons -->
+                <div class="timer-buttons">
+                    <button onclick="startTimer()">Start</button>
+                    <button onclick="pauseTimer()">Pause</button>
+                    <button onclick="resetTimer()">Reset</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Information Section -->
+        <section>
+            <h2>How It Works</h2>
+
+            <p>
+                Study for 25 minutes followed by a 5 minute break.
+                This Pomodoro technique helps improve productivity and reduces stress.
+            </p>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Exam Stress Management Website</p>
+        </footer>
+
+    </div>
+
+    <!-- JS Link -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

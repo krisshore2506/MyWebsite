@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Techniques</title>
+
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+<!-- Menu Toggle Button -->
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Menu</h2>
+
+        <a href="/">Home</a>
+        <a href="/study">Study Techniques</a>
+        <a href="/stress">Stress Tips</a>
+        <a href="/contact">Contact</a>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+
+        <header>
+            <h1>Study Techniques</h1>
+            <p>Improve focus and productivity using smart study methods</p>
+        </header>
+
+        <!-- Pomodoro Technique -->
+        <section>
+            <h2>Pomodoro Technique</h2>
+
+            <p>
+                Study for 25 minutes and then take a 5-minute break.
+                This method helps improve concentration and prevents mental fatigue.
+            </p>
+        </section>
+
+        <!-- Time Management -->
+        <section>
+            <h2>Time Management Tips</h2>
+
+            <ul>
+                <li>Create a daily study timetable</li>
+                <li>Prioritize difficult subjects first</li>
+                <li>Set achievable study goals</li>
+                <li>Avoid distractions while studying</li>
+            </ul>
+        </section>
+
+        <!-- Revision Techniques -->
+        <section>
+            <h2>Revision Techniques</h2>
+
+            <ul>
+                <li>Revise topics regularly</li>
+                <li>Practice previous year question papers</li>
+                <li>Make short notes and flashcards</li>
+                <li>Explain topics to friends or yourself</li>
+            </ul>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Exam Stress Management Website</p>
+        </footer>
+
+    </div>
+
+    <!-- JS Link -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

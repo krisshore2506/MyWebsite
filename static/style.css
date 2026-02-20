@@ -1,0 +1,384 @@
+/* ===== Reset ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== Neon Background ===== */
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    position: fixed;
+    width: 230px;
+    height: 100%;
+    padding-top: 20px;
+
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+
+    box-shadow: 0 0 20px #00f7ff;
+}
+
+/* Sidebar Title */
+.sidebar h2 {
+    text-align: center;
+    color: #00f7ff;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px #00f7ff;
+}
+
+/* Sidebar Links */
+.sidebar a {
+    display: block;
+    padding: 14px;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    border-left: 3px solid transparent;
+}
+
+/* Sidebar Hover */
+.sidebar a:hover {
+    background: rgba(0, 247, 255, 0.2);
+    border-left: 3px solid #00f7ff;
+    padding-left: 20px;
+}
+
+/* ===== Main Content ===== */
+.content {
+    margin-left: 250px;
+    padding: 30px;
+}
+
+/* ===== Header ===== */
+header {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 12px;
+
+    box-shadow: 0 0 15px #00f7ff;
+    margin-bottom: 25px;
+}
+
+/* ===== Sections ===== */
+section {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+
+    box-shadow: 0 0 10px #00f7ff;
+}
+
+/* Section Heading */
+section h2 {
+    margin-bottom: 12px;
+    color: #00f7ff;
+    text-shadow: 0 0 6px #00f7ff;
+}
+
+/* Lists */
+ul {
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 8px;
+}
+
+/* ===== Timer Section ===== */
+.timer-section {
+    text-align: center;
+}
+
+.timer-box {
+    margin-top: 15px;
+}
+
+/* Timer Display */
+#time-display {
+    font-size: 60px;
+    font-weight: bold;
+    margin: 20px 0;
+
+    color: #00f7ff;
+    text-shadow: 0 0 15px #00f7ff;
+}
+
+/* Timer Buttons */
+.timer-buttons {
+    margin-top: 10px;
+}
+
+/* ===== Neon Buttons ===== */
+button {
+    padding: 12px 22px;
+    margin: 6px;
+    border: none;
+    border-radius: 8px;
+
+    background: linear-gradient(45deg, #00f7ff, #00ffd5);
+    color: black;
+
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+
+    box-shadow: 0 0 12px #00f7ff;
+}
+
+/* Button Hover */
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #00f7ff;
+}
+
+/* ===== Form Inputs ===== */
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+
+    border-radius: 8px;
+    border: none;
+
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+
+    outline: none;
+}
+
+/* Input Glow */
+input:focus, textarea:focus {
+    box-shadow: 0 0 10px #00f7ff;
+}
+
+/* ===== Footer ===== */
+footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+
+    box-shadow: 0 0 10px #00f7ff;
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 768px) {
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .content {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    #time-display {
+        font-size: 40px;
+    }
+}
+/* ===== Menu Toggle Button ===== */
+
+.menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 1000;
+    background: #00ffff;
+    color: black;
+    padding: 8px 12px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px #00ffff;
+    transition: 0.3s;
+}
+
+.menu-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* ===== Sidebar Neon Style ===== */
+
+.sidebar {
+    position: fixed;
+    width: 220px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    padding-top: 60px;
+    transition: 0.4s;
+}
+
+/* Sidebar Closed */
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+/* Sidebar Links Layout */
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+}
+
+/* Emoji Icons */
+.sidebar .icon {
+    font-size: 20px;
+}
+
+/* Text Glow Effect */
+.sidebar .text {
+    transition: 0.3s;
+}
+
+.sidebar a:hover .text {
+    color: #00ffff;
+    text-shadow: 0 0 8px #00ffff;
+}
+
+/* Adjust Content When Sidebar Hidden */
+.content {
+    transition: 0.4s;
+}
+
+.content.full {
+    margin-left: 0;
+}
+/* ===== Sidebar Modern Neon Style ===== */
+
+.sidebar {
+    position: fixed;
+    width: 230px;
+    height: 100%;
+    background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+    padding-top: 20px;
+    transition: 0.3s;
+    overflow: hidden;
+}
+
+/* Sidebar Closed Mode */
+.sidebar.closed {
+    width: 80px;
+}
+
+/* Sidebar Links Layout */
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* Icon Style */
+.sidebar .icon {
+    font-size: 20px;
+    width: 40px;
+    text-align: center;
+}
+
+/* Text Style */
+.sidebar .text {
+    transition: 0.3s;
+}
+
+/* Hide Text When Closed */
+.sidebar.closed .text {
+    display: none;
+}
+
+/* Hover Neon Glow */
+.sidebar a:hover {
+    background: #00f7ff;
+    color: black;
+    box-shadow: 0 0 15px #00f7ff;
+}
+
+/* ===== Menu Toggle Button ===== */
+
+.menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 26px;
+    cursor: pointer;
+    z-index: 1000;
+    background: #00f7ff;
+    color: black;
+    padding: 8px 12px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px #00f7ff;
+}
+
+/* ===== Content Adjustment ===== */
+
+.content {
+    margin-left: 240px;
+    padding: 30px;
+    transition: 0.3s;
+}
+
+/* Content Full Width When Sidebar Closed */
+.content.full {
+    margin-left: 90px;
+}
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    min-height: 100vh;
+}
+.page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+.stack-card {
+    width: 90%;
+    max-width: 1200px;
+    background: white;
+    border-radius: 20px;
+    position: relative;
+    z-index: 3;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+    overflow: hidden;
+}
+.stack-card::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #e0f7fa;
+    top: 20px;
+    left: -20px;
+    border-radius: 20px;
+    z-index: -1;
+}
+.stack-card::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #b2ebf2;
+    top: 40px;
+    left: -40px;
+    border-radius: 20px;
+    z-index: -2;
+}
+
