@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .table-wrapper {
+            overflow-x: auto;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px #00f7ff;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: white;
+            min-width: 600px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+        }
+        th {
+            background: rgba(0, 247, 255, 0.1);
+            color: #00f7ff;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background: rgba(0, 247, 255, 0.05);
+        }
+        /* Override sidebar glow to show Admin specific neon (optional, picking #d100ff) */
+        .admin-sidebar {
+            background: linear-gradient(180deg, rgba(30,15,40,0.95), rgba(40,20,60,0.95), rgba(60,30,80,0.95));
+            box-shadow: 2px 0 20px rgba(209, 0, 255, 0.2);
+        }
+        .admin-sidebar h2 { color: #d100ff; text-shadow: 0 0 10px #d100ff; }
+        .admin-sidebar a.active {
+            background: rgba(209, 0, 255, 0.2) !important;
+            border-left-color: #d100ff !important;
+            box-shadow: inset 15px 0 20px -15px rgba(209, 0, 255, 0.6) !important;
+            color: #d100ff !important;
+        }
+        .admin-sidebar a.active .text {
+            text-shadow: 0 0 8px #d100ff !important;
+        }
+        .admin-sidebar a:hover {
+            background: rgba(209, 0, 255, 0.1);
+            border-left-color: #d100ff;
+            box-shadow: inset 15px 0 20px -15px rgba(209, 0, 255, 0.5);
+            color: #d100ff;
+        }
+        .admin-sidebar a:hover .text {
+            text-shadow: 0 0 8px #d100ff;
+        }
+        .admin-menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            color: #d100ff;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(209, 0, 255, 0.3);
+            border: 1px solid rgba(209, 0, 255, 0.5);
+            transition: 0.3s;
+        }
+        .admin-menu-toggle:hover {
+            background: #d100ff;
+            color: white;
+            box-shadow: 0 0 20px #d100ff;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <!-- Sidebar -->
+    <div class="sidebar admin-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="sidebar-logo" style="filter: drop-shadow(0 0 10px #d100ff);">
+            <h2>Admin Area</h2>
+        </div>
+
+        <div class="sidebar-links">
+            <a href="{{ url_for('admin_dashboard') }}" class="active">
+                <span class="icon">📊</span>
+                <span class="text">Dashboard</span>
+            </a>
+            <a href="{{ url_for('admin_dashboard') }}">
+                <span class="icon">✉️</span>
+                <span class="text">View Contacts</span>
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <hr style="border-color: rgba(209, 0, 255, 0.3); margin: 15px 20px;">
+            <a href="{{ url_for('logout') }}" class="logout-link" style="color: #fca5a5;">
+                <span class="icon">🚪</span>
+                <span class="text">Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <header style="box-shadow: 0 0 15px #d100ff;">
+            <div class="header-text">
+                <h1 style="color: #d100ff; text-shadow: 0 0 6px #d100ff;">Admin Dashboard</h1>
+                <p>Manage Contact Form Submissions</p>
+            </div>
+        </header>
+
+        <section style="box-shadow: 0 0 10px #d100ff;">
+            <h2 style="color: #d100ff; text-shadow: 0 0 6px #d100ff;">Contact Submissions</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts %}
+                        <tr>
+                            <td>{{ contact.id }}</td>
+                            <td>{{ contact.name }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>{{ contact.message }}</td>
+                            <td>{{ contact.date_submitted }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 30px;">No contact submissions yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- JS Link -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

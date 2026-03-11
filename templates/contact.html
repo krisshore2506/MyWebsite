@@ -14,23 +14,60 @@
 
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="sidebar-logo">
         <h2>Menu</h2>
-
-        <!-- Flask Routing Links -->
-        <a href="/">Home</a>
-        <a href="/stress">Stress Relief Tips</a>
-        <a href="/study">Study Techniques</a>
-        <a href="/timer">Study Timer</a>
-        <a href="/contact">Contact</a>
     </div>
+
+    <div class="sidebar-links">
+        <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">
+            <span class="icon">🏠</span>
+            <span class="text">Home</span>
+        </a>
+        <a href="{{ url_for('study') }}" class="{% if request.endpoint == 'study' %}active{% endif %}">
+            <span class="icon">📚</span>
+            <span class="text">Study Techniques</span>
+        </a>
+        <a href="{{ url_for('stress') }}" class="{% if request.endpoint == 'stress' %}active{% endif %}">
+            <span class="icon">🧘</span>
+            <span class="text">Stress Tips</span>
+        </a>
+        <a href="{{ url_for('timer') }}" class="{% if request.endpoint == 'timer' %}active{% endif %}">
+            <span class="icon">⏱️</span>
+            <span class="text">Timer</span>
+        </a>
+        <a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">
+            <span class="icon">✉️</span>
+            <span class="text">Contact</span>
+        </a>
+    </div>
+
+    <div class="sidebar-footer">
+        <hr style="border-color: rgba(0, 247, 255, 0.3); margin: 15px 20px;">
+        {% if session.user_email %}
+            <a href="{{ url_for('logout') }}" class="logout-link">
+                <span class="icon">🚪</span>
+                <span class="text">Logout</span>
+            </a>
+        {% else %}
+            <a href="{{ url_for('login') }}" class="login-link">
+                <span class="icon">🔑</span>
+                <span class="text">Login</span>
+            </a>
+        {% endif %}
+    </div>
+</div>
 
     <!-- Main Content -->
     <div class="content">
 
-        <header>
-            <h1>Contact / Feedback</h1>
-            <p>Share your suggestions or feedback</p>
+                <header>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="header-logo">
+            <div class="header-text">
+                <h1>Exam Stress Manager</h1>
+                <p>Share your suggestions or feedback</p>
+            </div>
         </header>
 
         <!-- Contact Form -->

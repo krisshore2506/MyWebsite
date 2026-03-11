@@ -1,13 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+import os
+
+app_content = """from flask import Flask, render_template, request, redirect, url_for, session, flash
 import random
 import smtplib
 from email.mime.text import MIMEText
-from datetime import datetime, timedelta
+from datetime import datetime
 import time
 import sqlite3
 
 app = Flask(__name__)
-app.secret_key = "exam_stress_manager_secret_key"
+app.secret_key = 'super_secret_key_for_otp_login'
 
 def init_db():
     conn = sqlite3.connect('exam_stress.db')
@@ -122,8 +124,8 @@ def submit():
 
 # --- OTP LOGIN SYSTEM ---
 def send_otp_email(receiver_email, otp):
-    sender_email = "examstressmanagement@gmail.com"
-    sender_password = "ybjoyhlqkvkybvli"
+    sender_email = "kishorekktd123@gmail.com"
+    sender_password = "vctgcmcrhiwbvnbr"
 
     msg = MIMEText(f"Your OTP for login is: {otp}. It is valid for 2 minutes.")
     msg['Subject'] = "Your Login OTP"
@@ -153,20 +155,18 @@ def send_otp():
     if 'user_email' in session:
         return redirect(url_for('home'))
 
-    email = request.form.get('email', '')
-    if not email or not email.endswith('@kanchiuniv.ac.in'):
-        flash("This system only accepts official college email IDs ending with @kanchiuniv.ac.in", "error")
+    email = request.form.get('email')
+    if not email:
+        flash("Email is required.", "error")
         return redirect(url_for('login'))
         
     otp = str(random.randint(100000, 999999))
     
-    # Store the OTP in Flask session variables when generating it
+    session.clear()
     session['otp'] = otp
     session['otp_email'] = email
-    
-    # OTP expiry should be stored using a timestamp (2 minutes validity)
-    session['otp_expiry'] = time.time() + 120
-    session.modified = True
+    session['otp_time'] = time.time()
+    session['otp_attempts'] = 0
     
     send_otp_email(email, otp)
     flash("OTP sent successfully. Please check your email.", "success")
@@ -176,47 +176,37 @@ def send_otp():
 def verify_otp():
     if 'user_email' in session:
         return redirect(url_for('home'))
+        
+    if 'otp' not in session or 'otp_email' not in session:
+        flash("Session expired. Please request a new OTP.", "error")
+        return redirect(url_for('login'))
 
     if request.method == 'POST':
         user_otp = request.form.get('otp')
         
-        # Step 1: Check if 'otp' exists in session.
-        if 'otp' not in session or 'otp_expiry' not in session:
-            flash("Session expired. Please request a new OTP.", "error")
-            return redirect(url_for('login'))
-            
-        # Step 2: Check if current time is greater than session['otp_expiry'].
-        if time.time() > session['otp_expiry']:
+        current_time = time.time()
+        otp_time = session.get('otp_time', 0)
+        if current_time - otp_time > 120:
             session.pop('otp', None)
-            session.pop('otp_email', None)
-            session.pop('otp_expiry', None)
-            session.modified = True
-            flash("OTP expired. Please request a new OTP.", "error")
+            flash("OTP has expired. Please request a new one.", "error")
             return redirect(url_for('login'))
             
-        # Step 3: If not expired, compare entered OTP with session['otp'].
+        attempts = session.get('otp_attempts', 0)
+        if attempts >= 3:
+            session.pop('otp', None)
+            flash("Too many failed attempts. Please request a new OTP.", "error")
+            return redirect(url_for('login'))
+
         if user_otp == session['otp']:
-            # Log the student in
-            session['user_email'] = session.get('otp_email')
-            
-            # Clear the OTP session
+            session['user_email'] = session['otp_email']
             session.pop('otp', None)
-            session.pop('otp_email', None)
-            session.pop('otp_expiry', None)
-            session.modified = True
-            
-            # Redirect to the home page
-            flash("Login successful!", "success")
+            session.pop('otp_time', None)
+            session.pop('otp_attempts', None)
             return redirect(url_for('home'))
         else:
-            # If OTP is incorrect
+            session['otp_attempts'] = attempts + 1
             flash("Invalid OTP. Please try again.", "error")
             return redirect(url_for('verify_otp'))
-
-    # Check for GET request to prevent random accesses without an OTP in play
-    if 'otp' not in session:
-        flash("Session expired. Please request a new OTP.", "error")
-        return redirect(url_for('login'))
 
     return render_template('verify.html')
 
@@ -228,3 +218,8 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
+"""
+with open(r'c:\Users\KRISSHORE S\OneDrive\Desktop\MyWebsite\app.py', 'w', encoding='utf-8') as f:
+    f.write(app_content)
+
+print('app.py has been completely rewritten with SQLite integration and Admin logic.')

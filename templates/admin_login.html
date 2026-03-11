@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Exam Stress Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .admin-glow {
+            box-shadow: 0 0 25px rgba(209, 0, 255, 0.2) !important;
+            border: 1px solid rgba(209, 0, 255, 0.3) !important;
+        }
+        .admin-btn {
+            background: linear-gradient(45deg, #8a2be2, #d100ff) !important;
+            color: white !important;
+            box-shadow: 0 0 15px rgba(209, 0, 255, 0.4) !important;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(209, 0, 255, 0.6) !important;
+        }
+        .admin-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(209, 0, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .admin-input:focus {
+            box-shadow: 0 0 15px #d100ff !important;
+            border-color: rgba(209, 0, 255, 0.5) !important;
+            outline: none;
+        }
+        h2.admin-title {
+            color: #d100ff;
+            text-shadow: 0 0 10px #d100ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="login-container">
+            <div class="login-card admin-glow">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-img" style="filter: drop-shadow(0 0 10px #d100ff);">
+                <h2 class="admin-title">Admin Login</h2>
+                <p class="subtitle" style="color: #eebbff;">Secure dashboard access</p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('admin_login') }}">
+                    <input type="text" name="username" placeholder="Username" class="admin-input" required>
+                    <input type="password" name="password" placeholder="Password" class="admin-input" required>
+                    <button type="submit" class="admin-btn">Login</button>
+                </form>
+                <div style="margin-top: 20px;">
+                    <a href="{{ url_for('login_choice') }}" style="color: #d100ff; text-decoration: none; font-size: 14px; transition: 0.3s;">← Back to Selection</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

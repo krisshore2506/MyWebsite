@@ -12,43 +12,7 @@ body {
     color: white;
 }
 
-/* ===== Sidebar ===== */
-.sidebar {
-    position: fixed;
-    width: 230px;
-    height: 100%;
-    padding-top: 20px;
-
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-
-    box-shadow: 0 0 20px #00f7ff;
-}
-
-/* Sidebar Title */
-.sidebar h2 {
-    text-align: center;
-    color: #00f7ff;
-    margin-bottom: 25px;
-    text-shadow: 0 0 10px #00f7ff;
-}
-
-/* Sidebar Links */
-.sidebar a {
-    display: block;
-    padding: 14px;
-    color: white;
-    text-decoration: none;
-    transition: 0.3s;
-    border-left: 3px solid transparent;
-}
-
-/* Sidebar Hover */
-.sidebar a:hover {
-    background: rgba(0, 247, 255, 0.2);
-    border-left: 3px solid #00f7ff;
-    padding-left: 20px;
-}
+/* (Legacy Sidebar Styles Removed) */
 
 /* ===== Main Content ===== */
 .content {
@@ -61,9 +25,27 @@ header {
     background: rgba(0, 0, 0, 0.5);
     padding: 20px;
     border-radius: 12px;
-
     box-shadow: 0 0 15px #00f7ff;
     margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-logo {
+    width: 60px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #00f7ff);
+}
+
+.header-text h1 {
+    margin: 0;
+    color: #00f7ff;
+    text-shadow: 0 0 6px #00f7ff;
+}
+
+.header-text p {
+    margin: 5px 0 0 0;
 }
 
 /* ===== Sections ===== */
@@ -140,7 +122,8 @@ button:hover {
 }
 
 /* ===== Form Inputs ===== */
-input, textarea {
+input,
+textarea {
     width: 100%;
     padding: 12px;
     margin-top: 6px;
@@ -155,7 +138,8 @@ input, textarea {
 }
 
 /* Input Glow */
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
     box-shadow: 0 0 10px #00f7ff;
 }
 
@@ -189,166 +173,166 @@ footer {
         font-size: 40px;
     }
 }
-/* ===== Menu Toggle Button ===== */
 
-.menu-toggle {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    font-size: 28px;
-    cursor: pointer;
-    z-index: 1000;
-    background: #00ffff;
-    color: black;
-    padding: 8px 12px;
-    border-radius: 6px;
-    box-shadow: 0 0 10px #00ffff;
-    transition: 0.3s;
-}
-
-.menu-toggle:hover {
-    transform: scale(1.1);
-}
-
-/* ===== Sidebar Neon Style ===== */
-
-.sidebar {
-    position: fixed;
-    width: 220px;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    padding-top: 60px;
-    transition: 0.4s;
-}
-
-/* Sidebar Closed */
-.sidebar.closed {
-    transform: translateX(-100%);
-}
-
-/* Sidebar Links Layout */
-.sidebar a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 20px;
-}
-
-/* Emoji Icons */
-.sidebar .icon {
-    font-size: 20px;
-}
-
-/* Text Glow Effect */
-.sidebar .text {
-    transition: 0.3s;
-}
-
-.sidebar a:hover .text {
-    color: #00ffff;
-    text-shadow: 0 0 8px #00ffff;
-}
-
-/* Adjust Content When Sidebar Hidden */
-.content {
-    transition: 0.4s;
-}
-
-.content.full {
-    margin-left: 0;
-}
 /* ===== Sidebar Modern Neon Style ===== */
-
 .sidebar {
     position: fixed;
-    width: 230px;
+    width: 250px;
     height: 100%;
-    background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-    padding-top: 20px;
-    transition: 0.3s;
+    background: linear-gradient(180deg, rgba(15,32,39,0.95), rgba(32,58,67,0.95), rgba(44,83,100,0.95));
+    backdrop-filter: blur(15px);
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
+    left: 0;
+    top: 0;
+    box-shadow: 2px 0 20px rgba(0, 247, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
 }
 
 /* Sidebar Closed Mode */
 .sidebar.closed {
-    width: 80px;
+    transform: translateX(-100%);
 }
 
-/* Sidebar Links Layout */
+
+
+
+
+.sidebar h2 {
+    color: #00f7ff;
+    text-shadow: 0 0 10px #00f7ff;
+    letter-spacing: 2px;
+    font-size: 22px;
+    margin: 0;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    flex-grow: 1;
+}
+
 .sidebar a {
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding: 15px 25px;
     color: white;
     text-decoration: none;
     transition: 0.3s;
+    border-left: 4px solid transparent;
 }
 
 /* Icon Style */
 .sidebar .icon {
-    font-size: 20px;
-    width: 40px;
+    font-size: 22px;
+    width: 35px;
     text-align: center;
 }
 
 /* Text Style */
 .sidebar .text {
+    font-size: 16px;
     transition: 0.3s;
-}
-
-/* Hide Text When Closed */
-.sidebar.closed .text {
-    display: none;
+    letter-spacing: 1px;
 }
 
 /* Hover Neon Glow */
 .sidebar a:hover {
-    background: #00f7ff;
-    color: black;
-    box-shadow: 0 0 15px #00f7ff;
+    background: rgba(0, 247, 255, 0.1);
+    border-left: 4px solid #00f7ff;
+    box-shadow: inset 15px 0 20px -15px rgba(0, 247, 255, 0.5);
+    color: #00f7ff;
+}
+
+.sidebar a:hover .text {
+    text-shadow: 0 0 8px #00f7ff;
+}
+
+.sidebar-footer {
+    padding-bottom: 30px;
+}
+
+.logout-link .icon, .logout-link .text {
+    color: #fca5a5;
+    text-shadow: 0 0 5px #fca5a5;
+}
+
+.login-link .icon, .login-link .text {
+    color: #86efac;
+    text-shadow: 0 0 5px #86efac;
+}
+
+.sidebar a.logout-link:hover {
+    background: rgba(252, 165, 165, 0.1);
+    border-left-color: #fca5a5;
+    box-shadow: inset 15px 0 20px -15px rgba(252, 165, 165, 0.5);
+    color: #fca5a5;
+}
+
+.sidebar a.login-link:hover {
+    background: rgba(134, 239, 172, 0.1);
+    border-left-color: #86efac;
+    box-shadow: inset 15px 0 20px -15px rgba(134, 239, 172, 0.5);
+    color: #86efac;
 }
 
 /* ===== Menu Toggle Button ===== */
-
 .menu-toggle {
     position: fixed;
-    top: 15px;
-    left: 15px;
-    font-size: 26px;
+    top: 20px;
+    left: 20px;
+    font-size: 22px;
     cursor: pointer;
     z-index: 1000;
+    background: rgba(0, 0, 0, 0.6);
+    color: #00f7ff;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+    border: 1px solid rgba(0, 247, 255, 0.5);
+    transition: 0.3s;
+}
+
+.menu-toggle:hover {
     background: #00f7ff;
     color: black;
-    padding: 8px 12px;
-    border-radius: 6px;
-    box-shadow: 0 0 10px #00f7ff;
+    box-shadow: 0 0 20px #00f7ff;
+    transform: scale(1.05);
 }
 
 /* ===== Content Adjustment ===== */
-
 .content {
-    margin-left: 240px;
+    margin-left: 250px;
     padding: 30px;
-    transition: 0.3s;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Content Full Width When Sidebar Closed */
 .content.full {
-    margin-left: 90px;
+    margin-left: 0;
 }
+
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     min-height: 100vh;
 }
+
 .page-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 40px;
 }
+
 .stack-card {
     width: 90%;
     max-width: 1200px;
@@ -359,6 +343,7 @@ body {
     box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
     overflow: hidden;
 }
+
 .stack-card::before {
     content: "";
     position: absolute;
@@ -370,6 +355,7 @@ body {
     border-radius: 20px;
     z-index: -1;
 }
+
 .stack-card::after {
     content: "";
     position: absolute;
@@ -382,3 +368,142 @@ body {
     z-index: -2;
 }
 
+/* ===== Login & OTP Form UI ===== */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.login-card {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 247, 255, 0.3);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0, 247, 255, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-card .logo-img {
+    width: 80px;
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px #00f7ff);
+}
+
+.login-card h2 {
+    color: #00f7ff;
+    text-shadow: 0 0 10px #00f7ff;
+    margin-bottom: 10px;
+}
+
+.login-card p.subtitle {
+    color: #b2ebf2;
+    margin-bottom: 30px;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 247, 255, 0.3);
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.login-card input:focus {
+    box-shadow: 0 0 15px #00f7ff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.login-card input.otp-input {
+    letter-spacing: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.login-card button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, #00f7ff, #00ffd5);
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 15px rgba(0, 247, 255, 0.4);
+}
+
+.login-card button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(0, 247, 255, 0.6);
+}
+
+.flash-message {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.flash-message.error {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.flash-message.success {
+    background: rgba(34, 197, 94, 0.2);
+    color: #86efac;
+    border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.sidebar-header {
+    text-align: center;
+    padding: 70px 20px 10px; /* Pushed down to avoid toggle button overlapping */
+}
+
+.sidebar-logo {
+    height: 55px; /* Sizing logo stringently between 50-60px */
+    width: auto;
+    filter: drop-shadow(0 0 10px #00f7ff);
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sidebar a.active {
+    background: rgba(0, 247, 255, 0.2);
+    border-left: 4px solid #00f7ff;
+    box-shadow: inset 15px 0 20px -15px rgba(0, 247, 255, 0.6);
+    color: #00f7ff;
+}
+
+.sidebar a.active .text {
+    text-shadow: 0 0 8px #00f7ff;
+    font-weight: bold;
+}
