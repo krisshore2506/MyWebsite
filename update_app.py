@@ -4,12 +4,12 @@ app_content = """from flask import Flask, render_template, request, redirect, ur
 import random
 import smtplib
 from email.mime.text import MIMEText
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 import sqlite3
 
 app = Flask(__name__)
-app.secret_key = 'super_secret_key_for_otp_login'
+app.secret_key = "exam_stress_manager_secret_key"
 
 def init_db():
     conn = sqlite3.connect('exam_stress.db')
@@ -31,14 +31,15 @@ init_db()
 
 @app.before_request
 def require_login():
-    allowed_routes = ['login_choice', 'login', 'admin_login', 'send_otp', 'verify_otp', 'static']
+    # 'home' is the root route which now shows the login choice
+    allowed_routes = ['home', 'login_choice', 'login', 'admin_login', 'send_otp', 'verify_otp', 'static']
     if request.endpoint not in allowed_routes:
         if request.endpoint == 'admin_dashboard':
             if 'admin_logged_in' not in session:
-                return redirect(url_for('login_choice'))
+                return redirect(url_for('home'))
         else:
             if 'user_email' not in session and 'admin_logged_in' not in session:
-                return redirect(url_for('login_choice'))
+                return redirect(url_for('home'))
 
 @app.route('/login-choice')
 def login_choice():
@@ -76,6 +77,12 @@ def admin_dashboard():
 
 @app.route('/')
 def home():
+    if 'admin_logged_in' in session:
+        return redirect(url_for('admin_dashboard'))
+    return render_template('login_choice.html')
+
+@app.route('/index')
+def index():
     if 'admin_logged_in' in session:
         return redirect(url_for('admin_dashboard'))
     return render_template('index.html')
@@ -124,8 +131,8 @@ def submit():
 
 # --- OTP LOGIN SYSTEM ---
 def send_otp_email(receiver_email, otp):
-    sender_email = "kishorekktd123@gmail.com"
-    sender_password = "vctgcmcrhiwbvnbr"
+    sender_email = "examstressmanagement@gmail.com"
+    sender_password = "ybjoyhlqkvkybvli"
 
     msg = MIMEText(f"Your OTP for login is: {otp}. It is valid for 2 minutes.")
     msg['Subject'] = "Your Login OTP"
@@ -147,26 +154,28 @@ def send_otp_email(receiver_email, otp):
 @app.route('/login')
 def login():
     if 'user_email' in session:
-        return redirect(url_for('home'))
-    return render_template('login.html')
+        return redirect(url_for('index'))
+    return render_template('student_login.html')
 
 @app.route('/send-otp', methods=['POST'])
 def send_otp():
     if 'user_email' in session:
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
 
-    email = request.form.get('email')
-    if not email:
-        flash("Email is required.", "error")
+    email = request.form.get('email', '')
+    if not email or not email.endswith('@kanchiuniv.ac.in'):
+        flash("This system only accepts official college email IDs ending with @kanchiuniv.ac.in", "error")
         return redirect(url_for('login'))
         
     otp = str(random.randint(100000, 999999))
     
-    session.clear()
+    # Store the OTP in Flask session variables when generating it
     session['otp'] = otp
     session['otp_email'] = email
-    session['otp_time'] = time.time()
-    session['otp_attempts'] = 0
+    
+    # OTP expiry should be stored using a timestamp (2 minutes validity)
+    session['otp_expiry'] = time.time() + 120
+    session.modified = True
     
     send_otp_email(email, otp)
     flash("OTP sent successfully. Please check your email.", "success")
@@ -175,46 +184,56 @@ def send_otp():
 @app.route('/verify-otp', methods=['GET', 'POST'])
 def verify_otp():
     if 'user_email' in session:
-        return redirect(url_for('home'))
-        
-    if 'otp' not in session or 'otp_email' not in session:
-        flash("Session expired. Please request a new OTP.", "error")
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
 
     if request.method == 'POST':
         user_otp = request.form.get('otp')
         
-        current_time = time.time()
-        otp_time = session.get('otp_time', 0)
-        if current_time - otp_time > 120:
-            session.pop('otp', None)
-            flash("OTP has expired. Please request a new one.", "error")
+        # Step 1: Check if 'otp' exists in session.
+        if 'otp' not in session or 'otp_expiry' not in session:
+            flash("Session expired. Please request a new OTP.", "error")
             return redirect(url_for('login'))
             
-        attempts = session.get('otp_attempts', 0)
-        if attempts >= 3:
+        # Step 2: Check if current time is greater than session['otp_expiry'].
+        if time.time() > session['otp_expiry']:
             session.pop('otp', None)
-            flash("Too many failed attempts. Please request a new OTP.", "error")
+            session.pop('otp_email', None)
+            session.pop('otp_expiry', None)
+            session.modified = True
+            flash("OTP expired. Please request a new OTP.", "error")
             return redirect(url_for('login'))
-
+            
+        # Step 3: If not expired, compare entered OTP with session['otp'].
         if user_otp == session['otp']:
-            session['user_email'] = session['otp_email']
+            # Log the student in
+            session['user_email'] = session.get('otp_email')
+            
+            # Clear the OTP session
             session.pop('otp', None)
-            session.pop('otp_time', None)
-            session.pop('otp_attempts', None)
-            return redirect(url_for('home'))
+            session.pop('otp_email', None)
+            session.pop('otp_expiry', None)
+            session.modified = True
+            
+            # Redirect to the index page
+            flash("Login successful!", "success")
+            return redirect(url_for('index'))
         else:
-            session['otp_attempts'] = attempts + 1
+            # If OTP is incorrect
             flash("Invalid OTP. Please try again.", "error")
             return redirect(url_for('verify_otp'))
 
-    return render_template('verify.html')
+    # Check for GET request to prevent random accesses without an OTP in play
+    if 'otp' not in session:
+        flash("Session expired. Please request a new OTP.", "error")
+        return redirect(url_for('login'))
+
+    return render_template('verify_otp.html')
 
 @app.route('/logout')
 def logout():
     session.clear()
     flash("You have been logged out.", "success")
-    return redirect(url_for('login_choice'))
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -222,4 +241,4 @@ if __name__ == '__main__':
 with open(r'c:\Users\KRISSHORE S\OneDrive\Desktop\MyWebsite\app.py', 'w', encoding='utf-8') as f:
     f.write(app_content)
 
-print('app.py has been completely rewritten with SQLite integration and Admin logic.')
+print('app.py has been updated with the correct root route and template names.')

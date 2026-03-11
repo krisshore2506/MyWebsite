@@ -29,14 +29,15 @@ init_db()
 
 @app.before_request
 def require_login():
-    allowed_routes = ['login_choice', 'login', 'admin_login', 'send_otp', 'verify_otp', 'static']
+    # 'home' is the root route which now shows the login choice
+    allowed_routes = ['home', 'login_choice', 'login', 'admin_login', 'send_otp', 'verify_otp', 'static']
     if request.endpoint not in allowed_routes:
         if request.endpoint == 'admin_dashboard':
             if 'admin_logged_in' not in session:
-                return redirect(url_for('login_choice'))
+                return redirect(url_for('home'))
         else:
             if 'user_email' not in session and 'admin_logged_in' not in session:
-                return redirect(url_for('login_choice'))
+                return redirect(url_for('home'))
 
 @app.route('/login-choice')
 def login_choice():
@@ -74,6 +75,12 @@ def admin_dashboard():
 
 @app.route('/')
 def home():
+    if 'admin_logged_in' in session:
+        return redirect(url_for('admin_dashboard'))
+    return render_template('login_choice.html')
+
+@app.route('/index')
+def index():
     if 'admin_logged_in' in session:
         return redirect(url_for('admin_dashboard'))
     return render_template('index.html')
@@ -145,13 +152,13 @@ def send_otp_email(receiver_email, otp):
 @app.route('/login')
 def login():
     if 'user_email' in session:
-        return redirect(url_for('home'))
-    return render_template('login.html')
+        return redirect(url_for('index'))
+    return render_template('student_login.html')
 
 @app.route('/send-otp', methods=['POST'])
 def send_otp():
     if 'user_email' in session:
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
 
     email = request.form.get('email', '')
     if not email or not email.endswith('@kanchiuniv.ac.in'):
@@ -175,7 +182,7 @@ def send_otp():
 @app.route('/verify-otp', methods=['GET', 'POST'])
 def verify_otp():
     if 'user_email' in session:
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
 
     if request.method == 'POST':
         user_otp = request.form.get('otp')
@@ -205,9 +212,9 @@ def verify_otp():
             session.pop('otp_expiry', None)
             session.modified = True
             
-            # Redirect to the home page
+            # Redirect to the index page
             flash("Login successful!", "success")
-            return redirect(url_for('home'))
+            return redirect(url_for('index'))
         else:
             # If OTP is incorrect
             flash("Invalid OTP. Please try again.", "error")
@@ -218,13 +225,13 @@ def verify_otp():
         flash("Session expired. Please request a new OTP.", "error")
         return redirect(url_for('login'))
 
-    return render_template('verify.html')
+    return render_template('verify_otp.html')
 
 @app.route('/logout')
 def logout():
     session.clear()
     flash("You have been logged out.", "success")
-    return redirect(url_for('login_choice'))
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
